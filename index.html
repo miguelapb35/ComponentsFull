@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title>Vue.js</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">    
+    <link rel='stylesheet' href="prism.css">
+    <link rel="stylesheet" href="cheatsheet.css">
+  </head>
+  <body>
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="columns">
+          <div class="column is-12">
+            <div class="container content">
+              <!-- <i class="is-large fab fa-discord"></i> -->
+              <i class="is-large fas fa-code"></i>
+              <h1 class="title">Components <em>In</em> Depth</h1>
+              <h3 class="subtitle">
+                Component Registration
+              </h3>
+              <a href="https://github.com/#" target="_blank" class="button is-primary is-large">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Github</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-12">
+            <div class="content is-medium">
+          <h3 class="title is-3">Snippets ¯\_(ツ)_/¯</h3>
+              <div class="box">
+                <h4 id="compnames" class="title is-3">Component Names</h4>
+                <article class="message is-primary">
+                  <span class="icon has-text-primary">
+                  <i class="fab fa-js"></i>
+                  </span>
+                  <div class="message-body">
+                    When registering a component, it will always be given a name. For example, in the global registration we’ve seen so far:
+                  </div>
+                </article>
+              <pre><code class="language-javascript">Vue.component('my-component-name', { /* ... */ })</code></pre>
+            </div>
+            <div class="box">
+              <h4 id="casing" class="title is-3">Name Casing</h4>
+              <article class="message is-primary">
+                <span class="icon has-text-primary">
+                  <i class="fab fa-js"></i>
+                </span>
+                <div class="message-body">
+                  
+                  With kebab-case
+                </div>
+              </article>
+            <pre><code class="language-javascript">Vue.component('my-component-name', { /* ... */ })</code></pre>
+              <article class="message is-primary">
+                <span class="icon has-text-primary">
+                  <i class="fab fa-js"></i>
+                </span>
+                <div class="message-body">
+                  With PascalCase
+                </div>
+              </article>
+            <pre><code class="language-javascript">Vue.component('MyComponentName', { /* ... */ })</code></pre>
+          </div>
+          <div class="box">
+            <h4 id="global" class="title is-3">Global Registration</h4>
+            <article class="message is-primary">
+              <span class="icon has-text-primary">
+              <i class="fab fa-js"></i>
+              </span>
+              <div class="message-body">
+                So far, we’ve only created components using Vue.component:
+              </div>
+            </article>
+          <pre><code class="language-javascript">Vue.component('my-component-name', {
+            // ... options ...
+          })</code></pre>
+        </div>
+          <div class="box">
+            
+            <article class="message is-primary">
+              <span class="icon has-text-primary">
+              <i class="fab fa-js"></i>
+              </span>
+              <div class="message-body">
+                These components are globally registered. That means 
+                they can be used in the template of any root 
+                Vue instance ( new Vuew ) created after registration.
+                For example:
+              </div>
+            </article>
+          <pre><code class="language-javascript">
+Vue.component('component-a', { /* ... */ })
+Vue.component('component-b', { /* ... */ })
+Vue.component('component-c', { /* ... */ })
+            
+new Vue({ el: '#app' })
+          </code></pre>
+          
+        <pre><code class="language-javascript">
+          (div id="app">
+            (component-a></component-a>
+            (component-b></component-b>
+          (component-c></component-c>
+          (/div>
+        </code></pre>
+
+        <div class="message-body">
+            This even applies to all subcomponents, 
+            meaning all three of these components 
+            will also be available inside each other.
+          </div>
+
+
+        </div>
+
+
+        <div class="box">
+            <h4 id="casing" class="title is-3">Local Registration</h4>
+            <article class="message is-primary">
+              <span class="icon has-text-primary">
+                <i class="fab fa-js"></i>
+              </span>
+              <div class="message-body">
+                Global registration often isn't ideal.
+                For examle, if you're using a build system
+                like Webpack, globally registering all 
+                components means that even if you stop using 
+                a component, it could still be included in your
+                final build. This unnecessarily increases the 
+                amount of JavaScript your users have to download
+                In these cases, you can define your components
+                as plain JavaScript objects:
+              </div>
+            </article>
+          <pre><code class="language-javascript">
+            var ComponentA = { /* .... */ }
+            var ComponentB= { /* .... */ }
+            var ComponentC = { /* .... */ }
+          </code></pre>
+            <article class="message is-primary">
+              <span class="icon has-text-primary">
+                <i class="fab fa-js"></i>
+              </span>
+              <div class="message-body">
+                Then define the components you'd like to 
+                use in a components option:
+              </div>
+            </article>
+          <pre><code class="language-javascript">
+            new Vue({
+              el: '#app',
+              components: {
+                'component-a' : ComponentA,
+                'component-b' : ComponentB
+              }
+            })
+          </code></pre>
+          <div class="message-body">
+              For each property in the components 
+              object, the key will be the name of the 
+              custom element, while the value will 
+              contain the options object for the 
+              component.
+              Note that locally registered components are 
+              not also available in subcomponents. For 
+              example, if you wanted ComponentA to be 
+              available in Component B, you'd have to 
+              use:
+
+            </div>
+            <pre><code class="language-javascript">
+                var ComponentA = {  /* ... */ }
+
+                var ComponentB = {
+                  components: {
+                    'component-a': ComponentA
+                  }
+                }
+              </code></pre>
+          <div class="message-body">
+              Or if you're using ES2015 modules, such
+              as through Babel and Webpack, that 
+              might look more like:
+
+            </div>
+            <pre><code class="language-javascript">
+                import ComponentA from './ComponentA.vue'
+
+                export default {
+                  components: {
+                    ComponentA
+                  },
+                  // ...
+                }
+              </code></pre>
+        </div>        
+
+        <div class="box">
+            <h4 id="casing" class="title is-3">Automatic Global Registration</h4>
+            <h4 id="casing" class="title is-3">of Base Components</h4>
+            <article class="message is-primary">
+              <span class="icon has-text-primary">
+                <i class="fab fa-js"></i>
+              </span>
+              <div class="message-body">
+                Many of your components will be relatively generic, possibly
+                only wrapping an element like an input or a button. We 
+                sometimes refer to these as base components and they tend to 
+                be used very frequently across your components: 
+
+                The result is that many components may include long lists base 
+                components:
+              </div>
+            </article>
+          <pre><code class="language-javascript">
+            import BaseButton from './BaseButton.vue'
+            import BaseIcon from './BaseIcon.vue'
+            import BaseInput from './BaseInput.vue'
+
+            export default {
+              components: {
+                BaseButton,
+                BaseIcon,
+                BaseInput
+              }
+            }
+          </code></pre>
+            <article class="message is-primary">
+              <span class="icon has-text-primary">
+                <i class="fab fa-js"></i>
+              </span>
+              <div class="message-body">
+                Just to support relatively little markup in 
+                a template:
+
+              </div>
+            </article>
+          <pre><code class="language-javascript">
+            (BaseInput 
+              v-model="searchText"
+              @keydown.enter="search"
+            /)
+            (BaseButton @click="search"
+              (BaseIcon name="search" /)
+          (/BaseButton)
+          </code></pre>
+          <div class="message-body">
+              Fortunately, if you're using Webpack
+              (or Vue CLI 3+, which uses Webpack internally),
+              you can use require.context  to globally register 
+              only these very common base components.
+              Here's an example of the code you might use 
+              to globally import base components in your app's 
+              entry file (e.g. src/main.js):
+
+
+            </div>
+            <pre><code class="language-javascript">
+                import Vue from 'vue'
+                import upperFirst from 'lodash/upperFirst'
+                import camelCase from 'lodash/camelCase'
+                
+                const requireComponent = require.context(
+                  // The relative path of the components folder
+                  './components',
+                  // Whether or not to look in subfolders
+                  false,
+                  // The regular expression used to match base component filenames
+                  /Base[A-Z]\w+\.(vue|js)$/
+                )
+                
+                requireComponent.keys().forEach(fileName => {
+                  // Get component config
+                  const componentConfig = requireComponent(fileName)
+                
+                  // Get PascalCase name of component
+                  const componentName = upperFirst(
+                    camelCase(
+                      // Strip the leading `./` and extension from the filename
+                      fileName.replace(/^\.\/(.*)\.\w+$/, '$1')
+                    )
+                  )
+                
+                  // Register component globally
+                  Vue.component(
+                    componentName,
+                    // Look for the component options on `.default`, which will
+                    // exist if the component was exported with `export default`,
+                    // otherwise fall back to module's root.
+                    componentConfig.default || componentConfig
+                  )
+                })
+              </code></pre>
+      
+        </div>        
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.js'></script>
+<script>
+  window.addEventListener('resize', () => {
+  const divs = document.querySelectorAll(".menu-list");
+  if (window.innerWidth < 768){
+    divs.forEach(div => div.classList.add("tags"));
+  }
+  else {
+    divs.forEach(div => div.classList.remove("tags"));
+  }
+});
+</script>  
+</body>
+</html>
